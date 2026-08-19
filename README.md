@@ -1,53 +1,50 @@
-# Tournament Manager
+# Tournament Manager: relational database for e-sports tournaments
 
-Este README também está disponível em português. [Click here](README-PT.md)
+![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat&logo=mariadb&logoColor=white)
 
-Project made by:
-[Guilherme Soares](https://github.com/gcsoares24) && [Vitória Correia](https://github.com/vitoriateixeiracorreia)
-## Description
+> 📖 Quick note in Portuguese: You can also read this README in Portuguese. To do so, just access [here](README.pt.md).
 
-This project is a tournament management system that allows the administration of editions, phases, matches, players, teams, and tickets. It was developed as part of the **Database Management** course for the academic year 2024/25.
+## About the project
 
-## Features
+Tournament Manager is a relational database that models an e-sports tournament management system, covering tournaments, editions, phases, matches (rounds), players, coaches, teams, virtual arenas, ticketing (online and in-person) and spectators. It was developed for the **Database Management** (Bases de Dados) course, academic year 2024/25, by [Guilherme Soares](https://github.com/gcsoares24) and [Vitória Correia](https://github.com/vitoriateixeiracorreia), with contributions from Duarte Soares and Diogo Almeida.
 
-- Create and manage tournaments and their editions.
-- Control phases and matches in virtual arenas.
-- Associate players with teams and define roles.
-- Manage tickets for in-person and online matches.
-- Enable recommendations among spectators.
-- Accumulate and track spectator credits.
+### Features
+- **Tournaments & editions** — a tournament (`Torneio`) groups multiple yearly editions (`Edicao`), each with a prize pool, a maximum number of teams and a linked game (`Jogo`).
+- **Phases & matches** — editions are split into phases (`Fase`: group stage, quarter-, semi- and final) with best-of-3/5/7 matches (`Encontro`), which in turn are made up of rounds (`Ronda`) played in virtual arenas (`ArenaVirtual`).
+- **Teams & roster** — teams (`Equipa`) have members (`MembroEquipa`) that are either players (`Jogador`) or coaches (`Treinador`), modeled with an IS-A relationship.
+- **Player roles per round** — players can take on different roles/specialties (`Especialidade`, e.g. Attacker, Mid, Defender) and are limited to a single role per round of a given match (`PapelPorRonda`).
+- **Ticketing** — tickets (`Bilhete`) are either online (`BilheteOnline`, tied to a streaming platform `PlataformaOnline`) or in-person (`BilhetePresencial`, tied to a venue `Recinto` and a seating zone `Zona`), via an IS-A relationship.
+- **Spectators** — spectators (`Espectador`) can accumulate credits and recommend other spectators (self-referencing relationship).
+- **Sample data & queries** — the DDL script ships with sample `INSERT` statements, and a separate DML script contains a set of analytical `SELECT` queries (joins, subqueries, set operators, aggregation) over the schema.
 
-## Requirements
+### Tech stack
+- **Language**: SQL (DDL for schema creation, DML for queries)
+- **DBMS**: MySQL / MariaDB (uses `DATETIME` columns, inline `CHECK` constraints and the `SOURCE` client command)
+- **Documentation**: entity-relationship schema exported as PDF (`SCHEMA.pdf`)
 
-- **Language**: SQL (for the database)
-- **DBMS**: PostgreSQL / MySQL / phpAdmin (as needed)
-- **Dependencies**: None at the moment
-
-## Database Structure
-
-The database follows the following integrity rules:
-
-- A tournament must have at least one edition.
-- Each edition can contain multiple games and phases.
-- Players can be associated with different teams over time.
-- Each match takes place in a virtual arena or an online platform.
-- Spectators can purchase tickets and recommend other users.
+## Repository structure
+- `DDL/BD-2425-E1_bd013_TP12.sql` — table creation script (`DROP TABLE` + `CREATE TABLE` + sample `INSERT`s) and its accompanying report (`.pdf`).
+- `DML.sql` — a set of `SELECT` queries answering the project's data-manipulation assignment.
+- `SCHEMA.pdf` — the entity-relationship diagram for the database.
 
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/guimbreon/BD-tournament-manager.git
+   git clone https://github.com/gcsoares24/BD-tournament-manager.git
    ```
-2. Import the database schema:
+2. Import the database schema (in a MySQL/MariaDB client):
    ```sql
-   SOURCE BD-2425-E2_bd013_TP12.sql;
+   SOURCE DDL/BD-2425-E1_bd013_TP12.sql;
    ```
-3. Configure the DBMS according to the project requirements.
+3. Run the queries in `DML.sql` against the populated schema.
 
 ## Authors
-
-- **Guilherme Soares** - Database development and modeling.
+- **Guilherme Soares** ([@gcsoares24](https://github.com/gcsoares24)) — database development and modeling.
+- **Vitória Correia** ([@vitoriateixeiracorreia](https://github.com/vitoriateixeiracorreia))
+- Duarte Soares, Diogo Almeida — contributors to the DDL stage.
 
 ## License
 
